@@ -1,0 +1,67 @@
+<mat-card class="example-card">
+  <mat-card-content>
+        <h2 class="example-h2">Panel de preguntas</h2>
+        <mat-tab-group class="demo-tab-group">
+          <mat-tab label="Texto (0)" disabled>
+            <div class="demo-tab-content">
+
+            </div>
+          </mat-tab>
+          <mat-tab label="Casillas (0)" disabled>
+            <div class="demo-tab-content">
+
+            </div>
+          </mat-tab>
+          <mat-tab label="Desplegables (99+)">
+            <mat-list>
+              <h3 mat-subheader>Preguntas Desplegables</h3>
+              <mat-list-item *ngFor="let question of questions">
+                <h4 mat-line>{{question.title}}</h4>
+                <h5 mat-line> {{question.description}} </h5>
+                <a (click)="delete(question)" style="display:absolute; margin-top:0%; cursor:pointer;">
+                  <mat-icon>clear</mat-icon>
+                </a>
+              </mat-list-item>
+              <mat-divider></mat-divider>
+            </mat-list>
+
+            <form [formGroup]="questionForm" (ngSubmit)="onSubmit(questionForm)" class="form-container">
+              <input type="hidden" formControlName="type" value="1">
+
+              <mat-form-field class="example-full-width">
+                <input formControlName="title" matInput placeholder="Escribe Titulo aqui" value="">
+              </mat-form-field>
+
+              <label for="desc">Agregar una descripción de aptitudes</label>
+              <mat-form-field class="example-full-width">
+                <input formControlName="description" matInput placeholder="Escribe Descripcion" value="">
+              </mat-form-field>
+
+
+              <label for="options">Elija o agregue opciones para la pregunta</label>
+              <div formArrayName="options" *ngFor="let question of questionForm.get('options').controls; let i = index;">
+                <div [formGroupName]="i">
+                  <mat-form-field class="example-full-width">
+                    <input matInput formControlName="value" placeholder="Agregar valor">
+                  </mat-form-field>
+                  <a *ngIf="(i > 0)" (click)="deleteOption(question)" style="color:#F44336; display:absolute; margin-top:0%; right:0%; cursor:pointer;">
+                    <mat-icon>remove_circle</mat-icon>
+                  </a>
+                </div>
+              </div>
+              <p style="text-align:right;">
+                <a mat-fab (click)="addItem()">
+                  <mat-icon>add</mat-icon>
+                </a>
+              </p>
+
+              <p style="text-align:right; padding:10px;">
+                <button type="submit" mat-raised-button color="primary">Agregar pregunta</button>
+              </p>
+            </form>
+
+          </mat-tab>
+
+        </mat-tab-group>
+  </mat-card-content>
+</mat-card>
